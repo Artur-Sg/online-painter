@@ -1,4 +1,5 @@
 @import "./variables";
+@import "./mixins";
 
 .toolbar {
   display: flex;
@@ -14,4 +15,55 @@
     top: 40px;
     z-index: 1;
   }
+
+  &__icon-btn {
+    height: $icon-size;
+    width: $icon-size;
+    border: none;
+    outline: none;
+    background-size: cover;
+    cursor: pointer;
+    margin-left: $icon-margin;
+
+    &--brush {
+      @include icon("../assets/img/brush.png");
+    }
+
+    &--rect {
+      @include icon("../assets/img/rect.png");
+    }
+
+    &--circle {
+      @include icon("../assets/img/circle.png");
+    }
+
+    &--eraser {
+      @include icon("../assets/img/eraser.png");
+    }
+
+    &--line {
+      @include icon("../assets/img/line.png");
+    }
+
+    &--gradient {
+      margin-left: $icon-margin;
+    }
+
+    &--undo {
+      margin-left: auto;
+      @include icon("../assets/img/undo.png");
+    }
+    &--redo {
+      @include icon("../assets/img/redo.png");
+    }
+
+    &--save {
+      @include icon("../assets/img/save.png");
+      margin-right: $icon-margin;
+    }
+  }
+}
+
+#line-width {
+  margin: 0 10px;
 }

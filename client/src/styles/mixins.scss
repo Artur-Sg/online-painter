@@ -1,0 +1,5 @@
+@import "./variables";
+
+@mixin icon($path) {
+  background: url($path) no-repeat center center;
+}

@@ -1,16 +1,23 @@
-import React, { Component } from 'react';
-import '../styles/canvas.scss';
+import { observer } from "mobx-react-lite";
+import { useEffect, useRef } from "react";
+import CanvasStore from "../store/CanvasStore";
+import ToolStore from "../store/ToolStore";
+import Brush from "../tools/Brush";
+import "../styles/canvas.scss";
 
-class Canvas extends Component {
-  state = {  }
+const Canvas = observer(() => {
+  const canvasRef = useRef();
 
-  render() { 
-    return (
-      <div className="canvas">
-        <canvas width={800} height={600}></canvas>
-      </div>
-    );
-  }
-}
+  useEffect(() => {
+    CanvasStore.setCanvas(canvasRef.current);
+    ToolStore.setTool(new Brush(canvasRef.current));
+  }, []);
+
+  return (
+    <div className="canvas">
+      <canvas ref={canvasRef} width={800} height={600}></canvas>
+    </div>
+  );
+});
 
 export default Canvas;
