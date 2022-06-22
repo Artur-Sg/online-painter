@@ -1,15 +1,21 @@
 import "./styles/app.scss";
-import ToolBar from "./components/Toolbar";
-import SettingBar from "./components/SettingBar";
-import Canvas from "./components/Canvas";
+import MainLayout from "./components/MainLayout";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 function App() {
+  const getId = () => {
+    return (+new Date()).toString(16);
+  };
+
   return (
-    <div className="app">
-      <ToolBar />
-      <SettingBar />
-      <Canvas />
-    </div>
+    <BrowserRouter>
+      <div className="app">
+        <Routes>
+          <Route path="/:id" element={<MainLayout />}></Route>
+          <Route path="*" element={<Navigate to={getId()} />}></Route>
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
 

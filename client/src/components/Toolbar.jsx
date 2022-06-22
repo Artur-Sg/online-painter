@@ -11,11 +11,15 @@ class Toolbar extends Component {
   state = {};
 
   useBrush() {
-    ToolStore.setTool(new Brush(CanvasStore.canvas));
+    ToolStore.setTool(
+      new Brush(CanvasStore.canvas, CanvasStore.socket, CanvasStore.sessionId)
+    );
   }
 
   useRect() {
-    ToolStore.setTool(new Rect(CanvasStore.canvas));
+    ToolStore.setTool(
+      new Rect(CanvasStore.canvas, CanvasStore.socket, CanvasStore.sessionId)
+    );
   }
 
   useCircle() {
@@ -30,6 +34,18 @@ class Toolbar extends Component {
     ToolStore.setStrokeColor(e.target.value);
     ToolStore.setFillColor(e.target.value);
   }
+
+  downloadImage = () => {
+    const dataUrl = CanvasStore.canvas.toDataURL();
+    const a = document.createElement("a");
+
+    a.href = dataUrl;
+    a.download = `${CanvasStore.sessionId}.png`;
+
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
 
   render() {
     return (
@@ -56,9 +72,18 @@ class Toolbar extends Component {
           type="color"
           className="toolbar__icon-btn toolbar__icon-btn--gradient"
         />
-        <button className="toolbar__icon-btn toolbar__icon-btn--undo"></button>
-        <button className="toolbar__icon-btn toolbar__icon-btn--redo"></button>
-        <button className="toolbar__icon-btn toolbar__icon-btn--save"></button>
+        <button
+          className="toolbar__icon-btn toolbar__icon-btn--undo"
+          onClick={() => CanvasStore.undo()}
+        ></button>
+        <button
+          className="toolbar__icon-btn toolbar__icon-btn--redo"
+          onClick={() => CanvasStore.redo()}
+        ></button>
+        <button
+          className="toolbar__icon-btn toolbar__icon-btn--save"
+          onClick={() => this.downloadImage()}
+        ></button>
       </div>
     );
   }

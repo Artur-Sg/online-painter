@@ -12,7 +12,7 @@ class SettingBar extends Component {
         <input
           onChange={(e) => ToolStore.setLineWidth(e.target.value)}
           id="line-width"
-          type="number"
+          type="range"
           min={1}
           defaultValue={1}
           max={50}
