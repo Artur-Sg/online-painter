@@ -1,11 +1,12 @@
-import React, { Component } from "react";
-import CanvasStore from "../store/CanvasStore";
-import ToolStore from "../store/ToolStore";
-import Brush from "../tools/Brush";
-import Rect from "../tools/Rect";
-import Circle from "../tools/Circle";
-import Eraser from "../tools/Eraser";
-import "../styles/toolbar.scss";
+import React, { Component } from 'react';
+import CanvasStore from '../store/CanvasStore';
+import ToolStore from '../store/ToolStore';
+import Brush from '../tools/Brush';
+import Rect from '../tools/Rect';
+import Circle from '../tools/Circle';
+import Eraser from '../tools/Eraser';
+import Line from '../tools/Line';
+import '../styles/toolbar.scss';
 
 class Toolbar extends Component {
   state = {};
@@ -13,6 +14,12 @@ class Toolbar extends Component {
   useBrush() {
     ToolStore.setTool(
       new Brush(CanvasStore.canvas, CanvasStore.socket, CanvasStore.sessionId)
+    );
+  }
+
+  useLine() {
+    ToolStore.setTool(
+      new Line(CanvasStore.canvas, CanvasStore.socket, CanvasStore.sessionId)
     );
   }
 
@@ -37,7 +44,7 @@ class Toolbar extends Component {
 
   downloadImage = () => {
     const dataUrl = CanvasStore.canvas.toDataURL();
-    const a = document.createElement("a");
+    const a = document.createElement('a');
 
     a.href = dataUrl;
     a.download = `${CanvasStore.sessionId}.png`;
@@ -66,7 +73,10 @@ class Toolbar extends Component {
           className="toolbar__icon-btn toolbar__icon-btn--eraser"
           onClick={() => this.useEraser()}
         ></button>
-        <button className="toolbar__icon-btn toolbar__icon-btn--line"></button>
+        <button
+          className="toolbar__icon-btn toolbar__icon-btn--line"
+          onClick={() => this.useLine()}
+        ></button>
         <input
           onChange={(e) => this.changeColor(e)}
           type="color"

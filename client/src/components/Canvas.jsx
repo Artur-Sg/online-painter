@@ -1,14 +1,14 @@
-import { observer } from "mobx-react-lite";
-import { useEffect, useRef, useState } from "react";
-import { Modal, Button } from "react-bootstrap";
-import { useParams } from "react-router-dom";
-import CanvasStore from "../store/CanvasStore";
-import ToolStore from "../store/ToolStore";
-import Brush from "../tools/Brush";
-import Rect from "../tools/Rect";
-import axios from "axios";
-
-import "../styles/canvas.scss";
+import { observer } from 'mobx-react-lite';
+import { useEffect, useRef, useState } from 'react';
+import { Modal, Button } from 'react-bootstrap';
+import { useParams } from 'react-router-dom';
+import Line from '../tools/Line';
+import CanvasStore from '../store/CanvasStore';
+import ToolStore from '../store/ToolStore';
+import Brush from '../tools/Brush';
+import Rect from '../tools/Rect';
+import axios from 'axios';
+import '../styles/canvas.scss';
 
 const Canvas = observer(() => {
   const canvasRef = useRef();
@@ -20,7 +20,7 @@ const Canvas = observer(() => {
     const url = `${process.env.REACT_APP_URL}/image?id=${params.id}`;
 
     CanvasStore.setCanvas(canvasRef.current);
-    let ctx = canvasRef.current.getContext("2d");
+    let ctx = canvasRef.current.getContext('2d');
 
     axios.get(url).then((resp) => {
       const img = new Image();
@@ -50,7 +50,7 @@ const Canvas = observer(() => {
           JSON.stringify({
             id: params.id,
             username: CanvasStore.userName,
-            method: "connection",
+            method: 'connection',
           })
         );
       };
@@ -59,11 +59,11 @@ const Canvas = observer(() => {
         const msg = JSON.parse(event.data);
 
         switch (msg.method) {
-          case "connection":
+          case 'connection':
             console.log(`User ${msg.username} connected`);
             break;
 
-          case "draw":
+          case 'draw':
             drawHandler(msg);
             break;
 
@@ -76,18 +76,22 @@ const Canvas = observer(() => {
 
   const drawHandler = (msg) => {
     const figure = msg.figure;
-    const ctx = canvasRef.current.getContext("2d");
+    const ctx = canvasRef.current.getContext('2d');
 
     switch (figure.type) {
-      case "brush":
+      case 'brush':
         Brush.draw(ctx, figure.x, figure.y);
         break;
 
-      case "rect":
+      case 'line':
+        Line.draw(ctx, figure.x, figure.y);
+        break;
+
+      case 'rect':
         Rect.staticDraw(ctx, figure);
         break;
 
-      case "finish":
+      case 'finish':
         ctx.beginPath();
         break;
 
